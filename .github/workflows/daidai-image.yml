@@ -1,0 +1,39 @@
+name: Daidai image
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: daidai-image-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  image:
+    if: github.repository == 'isaac-zheng/daidai'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build source and check types
+        run: >-
+          docker build --platform linux/amd64
+          --build-arg SOURCE_COMMIT=${{ github.sha }}
+          --file deploy/Dockerfile
+          --tag ghcr.io/isaac-zheng/daidai:sha-${{ github.sha }} .
+      - name: Verify image
+        run: python3 deploy/smoke_image.py ghcr.io/isaac-zheng/daidai:sha-${{ github.sha }}
+      - name: Publish verified image
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker push ghcr.io/isaac-zheng/daidai:sha-${{ github.sha }}
+          docker logout ghcr.io

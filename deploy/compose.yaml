@@ -1,0 +1,22 @@
+name: daidai
+services:
+  agent:
+    image: ${DAIDAI_IMAGE:?Set DAIDAI_IMAGE to the published image digest}
+    init: true
+    restart: unless-stopped
+    user: "1001:1001"
+    ports:
+      - "127.0.0.1:3080:3080"
+    volumes:
+      - /opt/daidai/data:/home/agent/.dsh
+      - /opt/daidai/workspace:/workspace
+    stop_grace_period: 60s
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: local
+      options:
+        max-size: "10m"
+        max-file: "3"
