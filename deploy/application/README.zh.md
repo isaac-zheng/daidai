@@ -68,7 +68,7 @@ Compose 仅绑定服务器的 `127.0.0.1:3080`，在未明确停止时自动重�
 在 Mac 终端保持以下命令运行。如果本地端口已被占用，SSH 会报错。
 
 ```bash
-ssh -N -o ExitOnForwardFailure=yes \
+ssh -CN -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
   -i "$HOME/.ssh/personal-agent-server.pem" \
   -L 127.0.0.1:3080:127.0.0.1:3080 deploy@SERVER_IP
 ```
@@ -87,4 +87,4 @@ ssh -N -o ExitOnForwardFailure=yes \
 
 ## 开发说明
 
-2026-10-26，Linux amd64 镜像通过上游全部 10 项构建检查，以及容器冒烟检查：插件加载、登录、无效令牌拒绝、前端资源、UID 1001、重启及容器重建后的数据保留。镜像未压缩大小约为 2.8GB。发布及线上应用部署仍待验证。服务器初始化证据见[服务器初始化](../README.zh.md#dev-note)。
+2026-10-26，Linux amd64 镜像通过上游全部 10 项构建检查，以及容器冒烟检查：插件加载、登录、无效令牌拒绝、前端资源、UID 1001、重启及容器重建后的数据保留。镜像未压缩大小约为 2.8GB。GitHub Actions 已发布镜像，服务器成功匿名拉取并按摘要启动。已通过 SSH 隧道验证 Web 登录、选择 /workspace 及一次 DeepSeek-V4.1-Flash 真实回复。重启服务器上的应用容器后，原会话和模型配置仍可使用，第二次真实模型回复也通过。SSH 压缩改善了本机访问链路。部署摘要为 `sha256:cc1fc86b12408b6dabb5e374478cbf1caad7429f2425be48f8e52fe04b36f205`；[发布记录](https://github.com/isaac-zheng/daidai/actions/runs/40322557587) 包含构建和冒烟检查。尚未验证整机重启、定时唤醒或连续 24 小时运行。服务器初始化证据见[服务器初始化](../README.zh.md#dev-note)。

@@ -86,4 +86,4 @@ shellcheck deploy/bootstrap.sh
 
 ## 开发备注
 
-2026-10-26，一台 Debian 13.2 amd64 服务器通过了预检、首次执行、重复执行、新 deploy SSH 登录以及 `docker run --rm hello-world` 验证。已安装 Docker 29.9.2、Compose 5.6.1、Buildx 0.38.1 和 containerd.io 2.4.2。重复执行未改变软件包版本、公钥内容、Docker 配置、账户 ID、应用目录权限或 Docker 进程及启动时间。本机部署账户的 UID/GID 为 1001；配置应用挂载前，应在每台主机上查询实际 ID。Docker 已启用开机启动；尚未验证服务器重启或 Harness 部署。本地辅助函数测试、ShellCheck 和仓库 lint 已通过。本机安装依赖需要设置 NODE_USE_ENV_PROXY=1。文档快速检查通过 20/21 项，doc-sync 通过 41/43 项；其中 CLI 帮助检查在清除仅指向 SOCKS 的 ALL_PROXY 环境变量后单独通过。剩余仓库引用检查将未改动的 Python 锁文件中的文件大小误判为提交号。
+2026-10-26，一台 Debian 13.2 amd64 服务器通过了预检、首次执行、重复执行、新 deploy SSH 登录以及 `docker run --rm hello-world` 验证。已安装 Docker 29.9.2、Compose 5.6.1、Buildx 0.38.1 和 containerd.io 2.4.2。重复执行未改变软件包版本、公钥内容、Docker 配置、账户 ID、应用目录权限或 Docker 进程及启动时间。本机部署账户的 UID/GID 为 1001；配置应用挂载前，应在每台主机上查询实际 ID。Docker 已启用开机启动；尚未验证服务器重启。应用验收记录见[应用部署](application/README.zh.md#dev-note)。本地辅助函数测试、ShellCheck 和仓库 lint 已通过。本机安装依赖需要设置 NODE_USE_ENV_PROXY=1。文档快速检查通过 20/21 项，清除仅指向 SOCKS 的 ALL_PROXY 环境变量后，doc-sync 通过 42/43 项。剩余仓库引用检查将未改动的 Python 锁文件中的文件大小误判为提交号。

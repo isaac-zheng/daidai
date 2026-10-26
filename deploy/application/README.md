@@ -68,7 +68,7 @@ Compose binds only `127.0.0.1:3080` on the server, restarts the service unless e
 Keep this command running in a Mac terminal. SSH reports an error if the local port is already occupied.
 
 ```bash
-ssh -N -o ExitOnForwardFailure=yes \
+ssh -CN -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
   -i "$HOME/.ssh/personal-agent-server.pem" \
   -L 127.0.0.1:3080:127.0.0.1:3080 deploy@SERVER_IP
 ```
@@ -87,4 +87,4 @@ If the new version fails, stop it and inspect logs locally. Reverting only the i
 
 ## Dev Note
 
-On 2026-10-26, the Linux amd64 image passed all 10 upstream build checks and the container smoke: plugin activation, login, invalid-token rejection, frontend assets, UID 1001, restart, and data retention after container recreation. Its uncompressed size is approximately 2.8GB. Publication and live application deployment are pending validation. The server bootstrap evidence is recorded in [Server initialization](../README.md#dev-note).
+On 2026-10-26, the Linux amd64 image passed all 10 upstream build checks and the container smoke: plugin activation, login, invalid-token rejection, frontend assets, UID 1001, restart, and data retention after container recreation. Its uncompressed size is approximately 2.8GB. GitHub Actions published the image, and the server successfully pulled it anonymously and started it by digest. Web login, selecting /workspace, and a real DeepSeek-V4.1-Flash reply passed through an SSH tunnel. After restarting the server container, the same conversation and provider configuration remained usable and a second real model reply passed. An SSH tunnel with compression improved this local access path. The deployed digest is `sha256:cc1fc86b12408b6dabb5e374478cbf1caad7429f2425be48f8e52fe04b36f205`; [the publishing run](https://github.com/isaac-zheng/daidai/actions/runs/40322557587) records its build and smoke checks. Whole-server reboot, scheduled wake-up, and a 24-hour soak have not been tested. The server bootstrap evidence is recorded in [Server initialization](../README.md#dev-note).
