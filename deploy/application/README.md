@@ -59,7 +59,7 @@ docker compose ps
 docker compose logs --tail=80 agent
 ```
 
-Compose binds only `127.0.0.1:3080` on the server, restarts the service unless explicitly stopped, and allows 60 seconds for shutdown. `/opt/daidai/data` stores `DSH_HOME`, including settings and sessions; `/opt/daidai/workspace` stores task files. The agent runs as UID/GID 1001 without host Docker access. Container restart policy does not restart an unhealthy but running process and does not prove interrupted model turns resume.
+Compose binds only `127.0.0.1:3080` on the server, restarts the service unless explicitly stopped, and allows 60 seconds for shutdown. `/opt/daidai/data` stores `DSH_HOME`, including settings and sessions; `/opt/daidai/workspace` stores task files. The agent runs as UID/GID 1001 without host Docker access. The entrypoint pins the upstream in-browser directory picker overlay, allowing directory selection without a desktop on the server. Container restart policy does not restart an unhealthy but running process and does not prove interrupted model turns resume.
 
 <a id="open-the-web-application"></a>
 

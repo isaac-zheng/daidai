@@ -59,7 +59,7 @@ docker compose ps
 docker compose logs --tail=80 agent
 ```
 
-Compose 仅绑定服务器的 `127.0.0.1:3080`，在未明确停止时自动重启服务，并留出 60 秒关停时间。`/opt/daidai/data` 保存 `DSH_HOME`，包括设置和会话；`/opt/daidai/workspace` 保存任务文件。智能体以 UID/GID 1001 运行，不能访问宿主 Docker。容器重启策略不会重启仍在运行但已不健康的进程，也不能证明中断的模型轮次会恢复。
+Compose 仅绑定服务器的 `127.0.0.1:3080`，在未明确停止时自动重启服务，并留出 60 秒关停时间。`/opt/daidai/data` 保存 `DSH_HOME`，包括设置和会话；`/opt/daidai/workspace` 保存任务文件。智能体以 UID/GID 1001 运行，不能访问宿主 Docker。入口脚本固定使用上游网页内目录选择覆盖项，无需服务器桌面即可选择工作目录。容器重启策略不会重启仍在运行但已不健康的进程，也不能证明中断的模型轮次会恢复。
 
 <a id="open-the-web-application"></a>
 
